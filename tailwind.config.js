@@ -7,18 +7,18 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        cream: "#FBF7F2",
-        blush: "#F7E9E6",
-        rose: "#C76A6A",
-        roseDark: "#A84F4F",
-        sand: "#EFE7DC",
+        cream: "#FBF6EA",
+        blush: "#F3E9C7",
+        rose: "#BF9B30",
+        roseDark: "#8A6D1F",
+        sand: "#EAE0C3",
         ink: "#4A4039",
       },
       fontFamily: {
         sans: ["Heebo", "system-ui", "sans-serif"],
       },
       boxShadow: {
-        soft: "0 8px 30px rgba(167, 79, 79, 0.08)",
+        soft: "0 8px 30px rgba(138, 109, 31, 0.08)",
       },
     },
   },
