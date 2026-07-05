@@ -9,21 +9,33 @@ export default function QuestionsEditor({ data }) {
   const [intro, setIntroState] = useState(data.intro || { male: "", female: "" });
   const [saved, setSaved] = useState(false);
   const [introSaved, setIntroSaved] = useState(false);
+  const [error, setError] = useState("");
+  const [introError, setIntroError] = useState("");
 
   function setText(i, field, value) {
     setQuestions((q) => q.map((item, idx) => (idx === i ? { ...item, [field]: value } : item)));
   }
 
-  function save() {
-    updateOpenQuestions(questions);
-    setSaved(true);
-    setTimeout(() => setSaved(false), 1500);
+  async function save() {
+    setError("");
+    try {
+      await updateOpenQuestions(questions);
+      setSaved(true);
+      setTimeout(() => setSaved(false), 1500);
+    } catch (e) {
+      setError("השמירה נכשלה, נסו שוב (" + (e?.message || "שגיאה") + ")");
+    }
   }
 
-  function saveIntro() {
-    updateIntro(intro);
-    setIntroSaved(true);
-    setTimeout(() => setIntroSaved(false), 1500);
+  async function saveIntro() {
+    setIntroError("");
+    try {
+      await updateIntro(intro);
+      setIntroSaved(true);
+      setTimeout(() => setIntroSaved(false), 1500);
+    } catch (e) {
+      setIntroError("השמירה נכשלה, נסו שוב (" + (e?.message || "שגיאה") + ")");
+    }
   }
 
   return (
@@ -41,6 +53,7 @@ export default function QuestionsEditor({ data }) {
           <textarea className="field-input min-h-[80px]" value={intro.female || ""} onChange={(e) => setIntroState({ ...intro, female: e.target.value })} />
         </div>
         <button className="btn-primary" onClick={saveIntro}>{introSaved ? "נשמר!" : "שמירת הקדמה"}</button>
+        {introError && <p className="text-sm font-medium text-red-600">{introError}</p>}
       </div>
 
       <h2 className="text-lg font-bold text-roseDark">⚙️ עריכת שאלות השאלון</h2>
@@ -59,6 +72,7 @@ export default function QuestionsEditor({ data }) {
         </div>
       ))}
       <button className="btn-primary" onClick={save}>{saved ? "נשמר!" : "שמירת שאלות"}</button>
+      {error && <p className="text-sm font-medium text-red-600">{error}</p>}
     </div>
   );
 }
